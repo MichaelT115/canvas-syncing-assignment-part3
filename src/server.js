@@ -8,6 +8,7 @@ const server = httpHandler.CreateServer(PORT);
 
 // Set IO Handler to listen to the server.
 ioHandler.CreateIO(server, (socket) => {
+  // This userID is used to differentiate shapes from different clients.
   const userID = `user${(Math.floor((Math.random() * 100000)) + 1)}`;
 
   // Handles when a message is received from a socket.
@@ -18,7 +19,7 @@ ioHandler.CreateIO(server, (socket) => {
     shape.color = 'green';
     socket.emit('transformShape', { userID, shape }); // Send red shapes to everyone excepts the sender.
 
-    // Send shapes to others
+    // Send shape to others
     shape.color = 'red';
     socket.broadcast.emit('transformShape', { userID, shape }); // Send red shapes to everyone excepts the sender.
 
